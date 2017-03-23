@@ -12,6 +12,9 @@ public class Generik<T> {
     private T result;
     private List<T> resultList;
 
+    public Generik() {
+    }
+
     public Generik(String message, T result) {
         this.message = message;
         this.result = result;
@@ -20,14 +23,5 @@ public class Generik<T> {
     public Generik(String message, List<T> resultList) {
         this.message = message;
         this.resultList = resultList;
-    }
-
-    public Generik with(String message, T result) {
-        this.message = message;
-        this.result = result;
-        return this;
-    }
-
-    public Generik() {
     }
 }

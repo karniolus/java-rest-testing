@@ -14,7 +14,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +27,6 @@ import java.util.List;
 public class ServisResource {
     @Inject
     Sporocilo sporocilo;
-
-    @Inject
-    Generik<java.io.Serializable> generik;
 
     @GET
     public String working() {
@@ -83,37 +79,42 @@ public class ServisResource {
         return new Generik<>("Generično sporočilo z generikom, ki je injectan", sporocilo.with(Status.info, "generično sporočilo", "T pa to pa take"));
     }
 
-    @GET
-    @Path("8")
-    public Generik generikInteger() {
-        return generik.with("generik številka", 43223);
-    }
+//    @GET
+//    @Path("8")
+//    public Generik generikInteger() {
+//        return generik.with("generik številka", 43223);
+//    }
+//
+//    @GET
+//    @Path("9")
+//    public Generik generikBoolean() {
+//        return generik.with("generik boolean", Boolean.TRUE);
+//    }
+//
+//    @GET
+//    @Path("10")
+//    // ta ne gre - "generik":"si.karniolus.servis.entity.Sporocilo@36d6feb6"
+//    public List<Generik> listaPoljubnihGenerikov() {
+//        List<Generik> result = new ArrayList<>();
+//        result.add(generik.with("številka", 500));
+//        result.add(generik.with("decimalke", BigDecimal.TEN));
+//        result.add(generik.with("boolean", Boolean.TRUE));
+//        result.add(generik.with("niz", "stringec"));
+//        result.add(generik.with("objekt spročilo", sporocilo.with(Status.info, "vse", "je kul")));
+//        return result;
+//    }
 
-    @GET
-    @Path("9")
-    public Generik generikBoolean() {
-        return generik.with("generik boolean", Boolean.TRUE);
-    }
+//    @GET
+//    @Path("11")
+//    // to deluje
+//    public Generik<Sporocilo> generikZListoObjektov() {
+//        return new Generik<>("generik z listo", listaSporocil());
+//    }
 
-    @GET
-    @Path("10")
-    // ta ne gre - "generik":"si.karniolus.servis.entity.Sporocilo@36d6feb6"
-    public List<Generik> listaPoljubnihGenerikov() {
-        List<Generik> result = new ArrayList<>();
-        result.add(generik.with("številka", 500));
-        result.add(generik.with("decimalke", BigDecimal.TEN));
-        result.add(generik.with("boolean", Boolean.TRUE));
-        result.add(generik.with("niz", "stringec"));
-        result.add(generik.with("objekt spročilo", sporocilo.with(Status.info, "vse", "je kul")));
-        return result;
-    }
 
-    @GET
-    @Path("11")
-    // to deluje
-    public Generik<Sporocilo> generikZListoObjektov() {
-        return new Generik<>("generik z listo", listaSporocil());
-    }
+
+
+
 
     private List<Sporocilo> listaSporocil() {
         List<Sporocilo> lista = new ArrayList<>();
@@ -126,6 +127,12 @@ public class ServisResource {
     @Path("12")
     public List<Sporocilo> listaSporocilDirekt() {
         return listaSporocil();
+    }
+
+    @GET
+    @Path("13")
+    public Generik<Sporocilo> listaGenerik() {
+        return new Generik<>("bla", listaSporocil());
     }
 
 }
