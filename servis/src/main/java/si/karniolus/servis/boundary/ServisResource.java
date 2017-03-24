@@ -29,14 +29,14 @@ public class ServisResource {
     Sporocilo sporocilo;
 
     @GET
-    public String working() {
+    public String deluje() {
         return "Servis deluje!";
     }
 
     @GET
     @Path("1")
-    public JsonObject test1() {
-        return Json.createObjectBuilder().add("result", "To je JsonObject").build();
+    public JsonObject jsonObject() {
+        return Json.createObjectBuilder().add("result", 1).build();
     }
 
     @GET
@@ -74,8 +74,8 @@ public class ServisResource {
     }
 
     @GET
-    @Path("7")
-    public Generik<Sporocilo> generikInjectan() {
+    @Path("generikSporocilo")
+    public Generik<Sporocilo> generikTipaSporocilo() {
         return new Generik<>("Generično sporočilo z generikom, ki je injectan", sporocilo.with(Status.info, "generično sporočilo", "T pa to pa take"));
     }
 
