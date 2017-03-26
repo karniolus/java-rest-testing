@@ -1,7 +1,5 @@
 package si.karniolus.servis.boundary;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import javax.json.JsonObject;
@@ -11,6 +9,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
+
+import static javax.ws.rs.core.Response.Status.OK;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by alojz_000 on 24. 03. 2017.
@@ -24,39 +26,38 @@ public class ServisBoundaryIT {
     @Test
     public void deluje() {
         Response response = target.request().get();
-        MatcherAssert.assertThat(response.getStatusInfo(), Matchers.is(Response.Status.OK));
+        assertThat(response.getStatusInfo(), is(OK));
         String rezultat = response.readEntity(String.class);
-        LOG.info("Rezultat klica za delovanje: "+ rezultat);
+        LOG.info("Rezultat klica za delovanje: " + rezultat);
     }
 
     @Test
-    public void jsonObject() throws Exception {
-        JsonObject jsonObject = target.path("1").request().get(JsonObject.class);
-        LOG.info("Rezultat klica za JSON objekt: "+ jsonObject);
+    public void integerResponseJson() {
+        Integer input = 12345;
+        Response response = target.path("integer/" + input).request().get();
+        assertThat(response.getStatusInfo(), is(OK));
+        JsonObject result = response.readEntity(JsonObject.class);
+        assertThat(result.getJsonObject("data").getInt("value"), is(input));
     }
 
-    @Test
-    public void generikSporociloJSON(){
-        Response response = target.path("generikSporocilo").request().get();
-        MatcherAssert.assertThat(response.getStatusInfo(), Matchers.is(Response.Status.OK));
-        JsonObject jsonObject = response.readEntity(JsonObject.class);
-        LOG.info(jsonObject.toString());
-    }
-
-//    @Test
-//    public void generikSporociloPOJO(){
-//        Response response = target.path("generikSporocilo").request().get();
-//        MatcherAssert.assertThat(response.getStatusInfo(), Matchers.is(Response.Status.OK));
-//        Generik<Sporocilo> sporociloGenerik = response.readEntity(Generik.class);
-//        LOG.info(sporociloGenerik.toString());
-//    }
 
     @Test
-    public void generikSporociloPOJOgenerik()  {
-        Response response = target.path("generikSporocilo").request().get();
-        MatcherAssert.assertThat(response.getStatusInfo(), Matchers.is(Response.Status.OK));
-        Generik<Sporocilo> sporociloGenerik = response.readEntity(new GenericType<Generik<Sporocilo>>() {
+    // ta ne deluje!
+    public void integerResponse() {
+        Integer input = 12345;
+        Response response = target.path("integer/" + input).request().get();
+        assertThat(response.getStatusInfo(), is(OK));
+        Message<Integer> result = response.readEntity(new GenericType<Message<Integer>>() {
         });
-        LOG.info(sporociloGenerik.toString());
+    }
+
+    @Test
+    public void rezultatResponse() {
+        String input = "bla";
+        Response response = target.path("rezultat/" + input).request().get();
+        assertThat(response.getStatusInfo(), is(OK));
+        Message<Rezultat> result = response.readEntity(new GenericType<Message<Rezultat>>() {
+        });
+        assertThat(result.getData().getRezultat(), is(input));
     }
 }
