@@ -14,20 +14,21 @@ import java.io.Serializable;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Rezultat implements Serializable {
-    private String rezultat;
+    private String vsebina;
 
     public Rezultat() {
     }
 
-    public Rezultat(String rezultat) {
-        this.rezultat = rezultat;
+    public Rezultat(String vsebina) {
+        this.vsebina = vsebina;
     }
 
-    public String getRezultat() {
-        return rezultat;
+
+    public String getVsebina() {
+        return vsebina;
     }
 
-    public void setRezultat(String rezultat) {
-        this.rezultat = rezultat;
+    public void setVsebina(String vsebina) {
+        this.vsebina = vsebina;
     }
 }

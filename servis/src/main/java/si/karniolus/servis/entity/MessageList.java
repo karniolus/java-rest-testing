@@ -1,4 +1,4 @@
-package si.karniolus.servis.boundary;
+package si.karniolus.servis.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -18,28 +18,21 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Message<T> implements Serializable {
+public class MessageList<T> implements Serializable {
     public enum Status {info, warning, error}
-
     private Status status;
     private String message;
     private String description;
-    private T data;
+    private List<T> data;
 
-    public Message() {
+    public MessageList() {
     }
 
-    public Message(Status status, String message, String description, T data) {
+    public MessageList(Status status, String message, String description, List<T> data) {
         this.status = status;
         this.message = message;
         this.description = description;
         this.data = data;
-    }
-
-    public Message(Status status, String message, String description, List<T> dataList) {
-        this.status = status;
-        this.message = message;
-        this.description = description;
     }
 
     public Status getStatus() {
@@ -66,12 +59,11 @@ public class Message<T> implements Serializable {
         this.description = description;
     }
 
-    public T getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(List<T> data) {
         this.data = data;
     }
-
 }

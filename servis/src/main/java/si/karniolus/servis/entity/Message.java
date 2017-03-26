@@ -1,9 +1,12 @@
 package si.karniolus.servis.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 
 /*
 * Sporočilo v obliki:
@@ -14,14 +17,15 @@ import java.io.Serializable;
 * */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Message<T> implements Serializable {
-    public enum Status {
-        info,warning,error
-    }
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Message<T> extends AbstractMessage implements Serializable {
+    public enum Status {info, warning, error}
+
     private Status status;
     private String message;
     private String description;
     private T data;
+
     public Message() {
     }
 
@@ -30,6 +34,12 @@ public class Message<T> implements Serializable {
         this.message = message;
         this.description = description;
         this.data = data;
+    }
+
+    public Message(Status status, String message, String description, List<T> dataList) {
+        this.status = status;
+        this.message = message;
+        this.description = description;
     }
 
     public Status getStatus() {
@@ -63,4 +73,5 @@ public class Message<T> implements Serializable {
     public void setData(T data) {
         this.data = data;
     }
+
 }

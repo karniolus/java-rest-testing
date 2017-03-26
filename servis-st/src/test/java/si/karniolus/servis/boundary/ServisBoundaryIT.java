@@ -53,11 +53,21 @@ public class ServisBoundaryIT {
 
     @Test
     public void rezultatResponse() {
-        String input = "bla";
+        String input = "PRVI_ZAPIS";
         Response response = target.path("rezultat/" + input).request().get();
         assertThat(response.getStatusInfo(), is(OK));
         Message<Rezultat> result = response.readEntity(new GenericType<Message<Rezultat>>() {
         });
-        assertThat(result.getData().getRezultat(), is(input));
+        assertThat(result.getData().getVsebina(), is(input));
+    }
+
+    @Test
+    public void seznamRezultatovResponse() {
+        String input = "prvi_zapis";
+        Response response = target.path("rezultat/seznam/" + input).request().get();
+        assertThat(response.getStatusInfo(), is(OK));
+        MessageList<Rezultat> result = response.readEntity(new GenericType<MessageList<Rezultat>>() {
+        });
+        assertThat(result.getData().get(0).getVsebina(), is(input));
     }
 }
